@@ -142,7 +142,7 @@ function createGalleryItem(imageData, index) {
     const item = document.createElement('div');
     item.className = 'gallery-item';
     item.style.animationDelay = `${index * 0.1}s`;
-    item.setAttribute('role', 'gridcell');
+    item.setAttribute('role', 'button');
     item.setAttribute('tabindex', '0');
     item.setAttribute('aria-label', `Open ${imageData.title} in modal`);
     
