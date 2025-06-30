@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA Space Explorer - Mission Control</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="mission-control-bg"></div>
+    
+    <div class="container">
+        <!-- Header Section -->
+        <header class="site-header" role="banner">
+            <div class="header-content">
+                <h1>
+                    <a href="https://nasa.gov" target="_blank" rel="noopener noreferrer" aria-label="Visit NASA.gov">
+                        <img src="img/nasa-worm-logo.png" alt="NASA Logo" class="logo">
+                    </a>
+                    <span>Space Explorer</span>
+                </h1>
+                <p class="mission-status">Mission Control Dashboard</p>
+            </div>
+        </header>
+
+        <!-- Control Panel -->
+        <section class="control-panel" role="region" aria-label="Date Range Controls">
+            <div class="panel-header">
+                <h2>Cosmic Timeline</h2>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>System Online</span>
+                </div>
+            </div>
+            
+            <div class="filters">
+                <div class="input-group">
+                    <label for="startDate">Journey Begins</label>
+                    <div class="date-input-wrapper">
+                        <input type="date" id="startDate" aria-describedby="date-help">
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label for="endDate">Journey Ends</label>
+                    <div class="date-input-wrapper">
+                        <input type="date" id="endDate" aria-describedby="date-help">
+                    </div>
+                </div>
+                <button id="fetchButton" class="mission-button" aria-describedby="fetch-help">
+                    <span class="button-text">Explore Archives</span>
+                    <span class="button-icon">🔭</span>
+                </button>
+                <button id="randomButton" class="mission-button random-button" aria-describedby="random-help">
+                    <span class="button-text">Random</span>
+                    <span class="button-icon">🎲</span>
+                </button>
+            </div>
+            <p id="date-help" class="help-text">Select date range for astronomy picture discovery (1995-06-16 to present). <span class="browser-note">Note: Month/year navigation in date picker works best in Chrome/Firefox.</span></p>
+            <p id="random-help" class="help-text sr-only">Click to set a random date range for surprise discoveries</p>
+            <p id="fetch-help" class="help-text sr-only">Click to fetch NASA astronomy pictures for selected date range</p>
+        </section>
+
+        <!-- Random Space Fact Section -->
+        <section class="space-fact" role="region" aria-label="Daily Space Fact">
+            <div class="fact-panel">
+                <h3>Cosmetic Intelligence</h3>
+                <div class="fact-content">
+                    <span class="fact-icon">🚀</span>
+                    <p id="spaceFact">Initializing NASA Cosmetic Intelligence database...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading State -->
+        <div class="loading-state" id="loadingState" role="status" aria-live="polite" aria-hidden="true">
+            <div class="radar-sweep"></div>
+            <p>Accessing NASA APOD database...</p>
+            <div class="loading-progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+
+        <!-- Gallery Section -->
+        <main class="gallery-section" role="main">
+            <div class="section-header">
+                <h2>NASA APOD Archives</h2>
+                <div class="archive-status">
+                    <span id="imageCount">0</span> images retrieved
+                </div>
+            </div>
+            
+            <div class="gallery" id="gallery" role="grid" aria-label="NASA Astronomy Pictures">
+                <!-- Placeholder content -->
+                <div class="placeholder" id="placeholder">
+                    <div class="placeholder-icon">🛰️</div>
+                    <h3>NASA APOD System Ready</h3>
+                    <p>Configure date range to access NASA's Astronomy Picture of the Day archives</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Mission Data</h2>
+                <button class="modal-close" id="modalClose" aria-label="Close modal">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img id="modalImage" alt="" loading="lazy">
+                    <div class="image-metadata">
+                        <span class="metadata-label">Mission Date:</span>
+                        <span id="modalDate" class="metadata-value"></span>
+                    </div>
+                </div>
+                <div class="modal-info">
+                    <div class="info-section">
+                        <h3>Astronomical Overview</h3>
+                        <p id="modalExplanation"></p>
+                    </div>
+                    <div class="info-section" id="copyrightSection" style="display: none;">
+                        <h3>Image Credit</h3>
+                        <p id="modalCopyright"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NASA Footer -->
+    <footer class="nasa-footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <a href="https://nasa.gov" target="_blank" rel="noopener noreferrer" aria-label="Visit NASA.gov">
+                    <img src="img/nasa-worm-logo.png" alt="NASA Logo" class="footer-logo">
+                </a>
+                <div class="footer-text">
+                    <p class="footer-title">National Aeronautics and Space Administration</p>
+                    <p class="footer-subtitle">APOD Official: Robert Nemiroff & Jerry Bonnell</p>
+                </div>
+            </div>
+            <div class="footer-links">
+                <a href="https://www.nasa.gov/about/highlights/HP_Privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+                <a href="https://www.nasa.gov/FOIA/" target="_blank" rel="noopener">FOIA</a>
+                <a href="https://www.nasa.gov/about/highlights/HP_accessibility.html" target="_blank" rel="noopener">Accessibility</a>
+                <a href="https://apod.nasa.gov/apod/" target="_blank" rel="noopener">APOD Archive</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>Data provided by NASA's Astronomy Picture of the Day API</p>
+            <p>Last Updated: <span id="lastUpdated"></span></p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/dateRange.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html> 
